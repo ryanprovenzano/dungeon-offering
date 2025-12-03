@@ -16,14 +16,6 @@ public class HPBarController : MonoBehaviour
         rt = GetComponent<RectTransform>();
     }
 
-    void Start()
-    {
-        //Get player's HP TODO: Access Player's health state here
-        (hp, previousHp, hpDisplayed) = (900, 900, 900);
-        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, hpDisplayed);
-        enabled = false;
-    }
-
     // Update is called once per frame IF the component is enabled!
     void Update()
     {
@@ -46,9 +38,18 @@ public class HPBarController : MonoBehaviour
         }
     }
 
-    public void SetHpToDisplay(int hp)
+    public void UpdateHpToDisplay(int hp)
     {
         this.hp = hp;
         enabled = true;
+    }
+
+    // Call this from UIManager within Start() function.
+    public void SetInitialHp(int hp)
+    {
+        //Get player's HP TODO: Access Player's health state here
+        (this.hp, previousHp, hpDisplayed) = (hp, hp, hp);
+        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, hp);
+        enabled = false;
     }
 }
