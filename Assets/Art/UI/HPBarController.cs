@@ -11,14 +11,17 @@ public class HPBarController : MonoBehaviour
     private float timeElapsed = 0;
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Awake()
+    {
+        rt = GetComponent<RectTransform>();
+    }
+
     void Start()
     {
-        //Get player's HP
-        (hp, previousHp) = (900, 900);
-
-        rt = GetComponent<RectTransform>();
+        //Get player's HP TODO: Access Player's health state here
+        (hp, previousHp, hpDisplayed) = (900, 900, 900);
         rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, hpDisplayed);
+        enabled = false;
     }
 
     // Update is called once per frame IF the component is enabled!
@@ -33,20 +36,14 @@ public class HPBarController : MonoBehaviour
 
             rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, hpDisplayed);
             Debug.Log("Ratio: " + interpolationRatio + " Elapsed frames: " + timeElapsed);
-
-
-            // HP Bar transition completed, store current hp into previous hp
-            if (hpDisplayed == hp)
-            {
-                previousHp = hp;
-                timeElapsed = 0;
-            }
         }
         else
         {
+            // HP Bar transition completed, store current hp into previous hp, and disable to stop Update calls
+            previousHp = hp;
+            timeElapsed = 0;
             enabled = false;
         }
-
     }
 
     public void SetHpToDisplay(int hp)
