@@ -29,14 +29,19 @@ public class CombatManager : MonoBehaviour
 
     }
 
-    void AttackTarget(string targetType)
+    /// <summary>
+    /// Expects "Enemy" or "Player" as arguments
+    /// </summary>
+    /// <param name="targetType"></param>
+    public void AttackTarget(string targetType)
     {
+
         switch (targetType)
         {
-            case "Player":
+            case "Enemy":
                 currentEnemyHp = -player.attack;
                 break;
-            case "Enemy":
+            case "Player":
                 currentPlayerHp = -enemy.attack;
                 break;
             default:
