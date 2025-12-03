@@ -5,5 +5,4 @@ public class EntityStats : ScriptableObject
 {
     public int maxHp;
     public int attack;
-
 }

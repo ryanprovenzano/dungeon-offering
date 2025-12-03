@@ -13,15 +13,14 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        //Todo: Get state from PlayerCombat
-        hpBarControl.SetInitialHp(900);
+        hpBarControl.SetInitialHp(CombatManager.Instance.currentPlayerHp);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        //hpBarControl.UpdateHpToDisplay()
+        //hpBarControl.UpdateHpToDisplay(CombatManager.Instance.currentPlayerHp);
 
     }
 }

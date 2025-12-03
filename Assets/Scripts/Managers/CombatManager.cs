@@ -1,17 +1,19 @@
 using UnityEngine;
 
-public class PlayerCombat : MonoBehaviour
+public class CombatManager : MonoBehaviour
 {
+    public static CombatManager Instance { get; private set; }
     EntityStats player;
     EntityStats enemy;
 
-    int currentPlayerHp;
-    int currentEnemyHp;
+    public int currentPlayerHp { get; private set; }
+    public int currentEnemyHp { get; private set; }
 
     void Awake()
     {
         player = Resources.Load<EntityStats>("PlayerStats");
         enemy = Resources.Load<EntityStats>("BossStats");
+        Instance = this;
     }
 
     void Start()

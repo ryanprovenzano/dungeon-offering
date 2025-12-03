@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - HPBar
+  - CombatManager
   layers:
   - Default
   - TransparentFX

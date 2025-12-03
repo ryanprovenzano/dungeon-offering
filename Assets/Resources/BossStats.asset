@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92b72755d3dd7274ebbe1e3a68842d44, type: 3}
   m_Name: BossStats
   m_EditorClassIdentifier: 
-  hp: 2000
+  maxHp: 900
   attack: 50
