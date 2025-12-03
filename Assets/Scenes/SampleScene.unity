@@ -526,7 +526,7 @@ GameObject:
   - component: {fileID: 1166152104}
   m_Layer: 5
   m_Name: HPBar
-  m_TagString: HPBar
+  m_TagString: PlayerHPBar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

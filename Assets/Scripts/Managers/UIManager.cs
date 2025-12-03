@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 
     void Awake()
     {
-        GameObject hpBar = GameObject.FindWithTag("HPBar");
+        GameObject hpBar = GameObject.FindWithTag("PlayerHPBar");
         hpBarControl = hpBar.GetComponent<HPBarController>();
     }
 
