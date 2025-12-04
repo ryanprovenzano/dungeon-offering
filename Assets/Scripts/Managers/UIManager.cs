@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        hpBarControl.SetInitialHp(CombatManager.Instance.currentPlayerHp);
+        hpBarControl.SetInitialHp(CombatManager.Instance.playerCurrentHp, CombatManager.Instance.playerMaxHp);
 
     }
 

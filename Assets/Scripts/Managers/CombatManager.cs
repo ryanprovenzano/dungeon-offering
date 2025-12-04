@@ -6,8 +6,13 @@ public class CombatManager : MonoBehaviour
     EntityStats player;
     EntityStats enemy;
 
-    public int currentPlayerHp { get; private set; }
-    public int currentEnemyHp { get; private set; }
+    //Player
+    public int playerCurrentHp { get; private set; }
+    public int playerMaxHp { get; private set; }
+
+    //Enemy
+    public int enemyCurrentHp { get; private set; }
+    public int enemyMaxHp { get; private set; }
 
     void Awake()
     {
@@ -19,8 +24,8 @@ public class CombatManager : MonoBehaviour
     void Start()
     {
         //Initialize entity values
-        currentPlayerHp = player.maxHp;
-        currentEnemyHp = enemy.maxHp;
+        (playerCurrentHp, playerMaxHp) = (player.maxHp, player.maxHp);
+        (enemyCurrentHp, enemyMaxHp) = (enemy.maxHp, enemy.maxHp);
     }
 
     // Update is called once per frame
@@ -39,10 +44,10 @@ public class CombatManager : MonoBehaviour
         switch (targetType)
         {
             case "Enemy":
-                currentEnemyHp = -player.attack;
+                enemyCurrentHp = -player.attack;
                 break;
             case "Player":
-                currentPlayerHp = -enemy.attack;
+                playerCurrentHp = -enemy.attack;
                 break;
             default:
                 Debug.Log("No target found for attack");
