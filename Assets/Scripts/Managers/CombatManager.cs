@@ -30,6 +30,8 @@ public class CombatManager : MonoBehaviour
     /// <param name="targetType"></param>
     public void AttackTarget(string targetType)
     {
+        Debug.Log("Attack called");
+        Debug.Log(enemyController.currentHp);
         switch (targetType)
         {
             case "Enemy":

@@ -6,6 +6,7 @@ public class EntityController : MonoBehaviour
     private EntityStats stats;
 
     //State to be kept track of
+    [HideInInspector]
     public int currentHp;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
