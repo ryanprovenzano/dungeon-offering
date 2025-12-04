@@ -6,7 +6,7 @@ public class HPBarController : MonoBehaviour
     private int maxHp;
     private int currentHp;
     private int previousHp;
-    private int displayedHp;
+    private int hpToDisplay;
     //Harder hits decrease the HP bar faster
     private float hpBarAnimDuration = 1f;
     private float timeElapsed = 0;
@@ -23,7 +23,7 @@ public class HPBarController : MonoBehaviour
     void Update()
     {
         // If HP Bar has not yet become the current hp
-        if (displayedHp != currentHp)
+        if (hpToDisplay != currentHp)
         {
             HandleHpUpdate();
         }
@@ -38,7 +38,7 @@ public class HPBarController : MonoBehaviour
 
     public void UpdateHpToDisplay(int hp)
     {
-        displayedHp = hp;
+        hpToDisplay = hp;
         enabled = true;
     }
 
@@ -46,9 +46,10 @@ public class HPBarController : MonoBehaviour
     {
         timeElapsed += Time.deltaTime;
         float interpolationRatio = timeElapsed / hpBarAnimDuration;
-        displayedHp = (int)Mathf.SmoothStep(previousHp, currentHp, interpolationRatio);
+        hpToDisplay = (int)Mathf.SmoothStep(previousHp, currentHp, interpolationRatio);
+        float hpRatio = (float)hpToDisplay / maxHp;
 
-        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, displayedHp);
+        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, hpRatio * fullWidth);
     }
 
 
@@ -56,8 +57,9 @@ public class HPBarController : MonoBehaviour
     public void SetInitialHp(int currentHp, int maxHp)
     {
         //Get player's HP TODO: Access Player's health state here
-        (this.currentHp, previousHp, displayedHp, this.maxHp) = (currentHp, currentHp, currentHp, maxHp);
-        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, displayedHp);
+        (this.currentHp, previousHp, hpToDisplay, this.maxHp) = (currentHp, currentHp, currentHp, maxHp);
+        float hpRatio = (float)currentHp / maxHp;
+        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, hpRatio * fullWidth);
         enabled = false;
     }
 }
