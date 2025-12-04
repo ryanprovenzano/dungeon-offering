@@ -40,7 +40,6 @@ public class CombatManager : MonoBehaviour
     /// <param name="targetType"></param>
     public void AttackTarget(string targetType)
     {
-
         switch (targetType)
         {
             case "Enemy":
