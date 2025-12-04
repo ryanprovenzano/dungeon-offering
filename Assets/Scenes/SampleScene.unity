@@ -560,8 +560,8 @@ GameObject:
   - component: {fileID: 632384825}
   - component: {fileID: 632384824}
   m_Layer: 5
-  m_Name: EnemyHPBar
-  m_TagString: EnemyHPBar
+  m_Name: PlayerHPBar
+  m_TagString: PlayerHPBar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -594,15 +594,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 632384822}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 112f09a7fb82b064da0754268a319b42, type: 3}
+  m_Script: {fileID: 11500000, guid: 783221f2c840d6b43aa423c13bc44552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rt: {fileID: 0}
-  hp: 0
-  previousHp: 0
-  hpDisplayed: 0
-  hpBarAnimDuration: 1
-  timeElapsed: 0
 --- !u!114 &632384825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1076,7 +1070,7 @@ GameObject:
   - component: {fileID: 1412423804}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1355,7 +1349,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1440159974}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1634452062}
+        m_TargetAssemblyTypeName: CombatManager, Assembly-CSharp
+        m_MethodName: AttackTarget
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Enemy
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1440159974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1710,15 +1716,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1715103287}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 112f09a7fb82b064da0754268a319b42, type: 3}
+  m_Script: {fileID: 11500000, guid: 783221f2c840d6b43aa423c13bc44552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rt: {fileID: 0}
-  hp: 0
-  previousHp: 0
-  hpDisplayed: 0
-  hpBarAnimDuration: 1
-  timeElapsed: 0
 --- !u!114 &1715103290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1769,7 +1769,7 @@ GameObject:
   - component: {fileID: 1935469901}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

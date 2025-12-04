@@ -3,39 +3,29 @@ using UnityEngine;
 public class CombatManager : MonoBehaviour
 {
     public static CombatManager Instance { get; private set; }
-    EntityStats player;
-    EntityStats enemy;
+
+
+    EntityStats playerStats;
+    EntityStats enemyStats;
 
     //Player
-    public int playerCurrentHp { get; private set; }
-    public int playerMaxHp { get; private set; }
+    EntityController playerController;
 
     //Enemy
-    public int enemyCurrentHp { get; private set; }
-    public int enemyMaxHp { get; private set; }
+    EntityController enemyController;
 
     void Awake()
     {
-        player = Resources.Load<EntityStats>("PlayerStats");
-        enemy = Resources.Load<EntityStats>("BossStats");
+        playerStats = Resources.Load<EntityStats>("Player");
+        enemyStats = Resources.Load<EntityStats>("Boss");
+
+        enemyController = GameObject.FindWithTag("Boss").GetComponent<EntityController>();
+        playerController = GameObject.FindWithTag("Player").GetComponent<EntityController>();
         Instance = this;
     }
 
-    void Start()
-    {
-        //Initialize entity values
-        (playerCurrentHp, playerMaxHp) = (player.maxHp, player.maxHp);
-        (enemyCurrentHp, enemyMaxHp) = (enemy.maxHp, enemy.maxHp);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     /// <summary>
-    /// Expects "Enemy" or "Player" as arguments
+    /// Expects "Enemy" or "Player" as arguments. The recipient of the attack.
     /// </summary>
     /// <param name="targetType"></param>
     public void AttackTarget(string targetType)
@@ -43,14 +33,27 @@ public class CombatManager : MonoBehaviour
         switch (targetType)
         {
             case "Enemy":
-                enemyCurrentHp = -player.attack;
+                enemyController.currentHp -= playerStats.attack;
+                UIManager.Instance.UpdateHp(targetType, enemyController.currentHp);
                 break;
             case "Player":
-                playerCurrentHp = -enemy.attack;
+                playerController.currentHp -= enemyStats.attack;
+                UIManager.Instance.UpdateHp(targetType, playerController.currentHp);
                 break;
             default:
                 Debug.Log("No target found for attack");
                 break;
         }
     }
+
+    /// <summary>
+    /// Gets Player's current hp & max hp, and then Enemy's current hp & max hp.
+    /// </summary>
+    /// <returns></returns>
+    public (int, int, int, int) GetCombatantsHpValues()
+    {
+        return (playerController.currentHp, playerStats.maxHp, enemyController.currentHp, enemyStats.maxHp);
+    }
+
 }
+

@@ -11,8 +11,6 @@ public class HPBarController : MonoBehaviour
     private float hpBarAnimDuration = 1f;
     private float timeElapsed = 0;
     private int fullWidth = 354;
-    private float currentWidth = 354;
-
 
     void Awake()
     {

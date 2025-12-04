@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92b72755d3dd7274ebbe1e3a68842d44, type: 3}
-  m_Name: PlayerStats
+  m_Name: Player
   m_EditorClassIdentifier: 
   maxHp: 900
   attack: 100

@@ -7,6 +7,7 @@ TagManager:
   - CombatManager
   - PlayerHPBar
   - EnemyHPBar
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -9,20 +9,15 @@ public class UIManager : MonoBehaviour
 
     void Awake()
     {
-        GameObject playerHpBar = GameObject.FindWithTag("PlayerHPBar");
-        playerHpBarControl = playerHpBar.GetComponent<HPBarController>();
-
-        GameObject enemyHpBar = GameObject.FindWithTag("EnemyHPBar");
-        enemyHpBarControl = enemyHpBar.GetComponent<HPBarController>();
+        playerHpBarControl = GameObject.FindWithTag("PlayerHPBar").GetComponent<HPBarController>();
+        enemyHpBarControl = GameObject.FindWithTag("EnemyHPBar").GetComponent<HPBarController>();
 
         Instance = this;
     }
 
     void Start()
     {
-        playerHpBarControl.SetInitialHp(CombatManager.Instance.playerCurrentHp, CombatManager.Instance.playerMaxHp);
-        enemyHpBarControl.SetInitialHp(CombatManager.Instance.enemyCurrentHp, CombatManager.Instance.enemyMaxHp);
-
+        InitializeHpBars();
     }
 
     // Update is called once per frame
@@ -32,7 +27,14 @@ public class UIManager : MonoBehaviour
 
     }
 
-    void UpdateHp(string targetType, int currentHp)
+    private void InitializeHpBars()
+    {
+        (int playerCurrentHp, int playerMaxHp, int enemyCurrentHp, int enemyMaxHp) = CombatManager.Instance.GetCombatantsHpValues();
+        playerHpBarControl.SetInitialHp(playerCurrentHp, playerMaxHp);
+        enemyHpBarControl.SetInitialHp(enemyCurrentHp, enemyMaxHp);
+    }
+
+    public void UpdateHp(string targetType, int currentHp)
     {
         switch (targetType)
         {
