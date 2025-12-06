@@ -13,11 +13,13 @@ public class EntityController : MonoBehaviour
     void Awake()
     {
         stats = Resources.Load<EntityStats>(gameObject.tag);
+        currentHp = stats.maxHp;
+
     }
 
     void Start()
     {
-        currentHp = stats.maxHp;
+
 
     }
 
