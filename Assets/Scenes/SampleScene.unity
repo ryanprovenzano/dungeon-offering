@@ -580,11 +580,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1406337542}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -116, y: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 189, y: 0}
   m_SizeDelta: {x: 354, y: 24}
-  m_Pivot: {x: 1, y: 0.5}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &632384824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,6 +597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783221f2c840d6b43aa423c13bc44552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityController: {fileID: 0}
 --- !u!114 &632384825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1158,7 +1159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62f22f38c3bffc84aad270de32eea031, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHp: 0
+  stats: {fileID: 0}
 --- !u!1 &1417226499
 GameObject:
   m_ObjectHideFlags: 0
@@ -1366,8 +1367,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1634452062}
         m_TargetAssemblyTypeName: CombatManager, Assembly-CSharp
-        m_MethodName: AttackTarget
-        m_Mode: 5
+        m_MethodName: ConductCombat
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1716,11 +1717,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1439031350}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -116, y: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 189, y: 0}
   m_SizeDelta: {x: 354, y: 24}
-  m_Pivot: {x: 1, y: 0.5}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1715103289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1733,6 +1734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783221f2c840d6b43aa423c13bc44552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityController: {fileID: 0}
 --- !u!114 &1715103290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1871,7 +1873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62f22f38c3bffc84aad270de32eea031, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHp: 0
+  stats: {fileID: 0}
 --- !u!1 &1947704634
 GameObject:
   m_ObjectHideFlags: 0

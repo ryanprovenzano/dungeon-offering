@@ -4,39 +4,46 @@ public class HPBarController : MonoBehaviour
 {
     private RectTransform rt;
     private int maxHp;
-    private int currentlyDisplayedHp;
+    private int interpolatedHp;
     private int previousHp;
-    private int targetHp;
     //Harder hits decrease the HP bar faster
     private float hpBarAnimDuration = 1f;
     private float timeElapsed = 0;
-    private int fullWidth = 354;
+    private readonly int fullWidth = 354;
+
+    //Reference to player's controller for HP
+    public EntityController entityController;
 
     void Awake()
     {
         rt = GetComponent<RectTransform>();
+
+    }
+
+    void Start()
+    {
+
     }
 
     // Update is called once per frame IF the component is enabled!
     void Update()
     {
         // If HP Bar has not yet become the current hp
-        if (targetHp != currentlyDisplayedHp)
+        if (entityController.CurrentHp != interpolatedHp)
         {
             HandleHpUpdate();
         }
         else
         {
             // HP Bar transition completed, store current hp into previous hp, and disable to stop Update calls
-            previousHp = currentlyDisplayedHp;
+            previousHp = entityController.CurrentHp;
             timeElapsed = 0;
             enabled = false;
         }
     }
 
-    public void UpdateHpToDisplay(int hp)
+    public void WakeHpBar()
     {
-        targetHp = hp;
         enabled = true;
     }
 
@@ -44,21 +51,24 @@ public class HPBarController : MonoBehaviour
     {
         timeElapsed += Time.deltaTime;
         float interpolationRatio = timeElapsed / hpBarAnimDuration;
-        currentlyDisplayedHp = (int)Mathf.SmoothStep(previousHp, targetHp, interpolationRatio);
-        float hpRatio = (float)currentlyDisplayedHp / maxHp;
-
-        Debug.Log("uhhhhhhh" + " " + interpolationRatio.ToString() + " " + targetHp.ToString() + " " + hpRatio.ToString());
-        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, hpRatio * fullWidth);
+        interpolatedHp = (int)Mathf.SmoothStep(previousHp, entityController.CurrentHp, interpolationRatio);
+        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, CalcBarWidth());
     }
 
+    private float CalcBarWidth()
+    {
+        return (float)interpolatedHp / maxHp * fullWidth;
+    }
 
     // Call this from UIManager within Start() function.
-    public void SetInitialHp(int currentHp, int maxHp)
+    public void InitializeHpBar(EntityController controller)
     {
-        //Get player's HP TODO: Access Player's health state here
-        (this.currentlyDisplayedHp, previousHp, targetHp, this.maxHp) = (currentHp, currentHp, currentHp, maxHp);
-        float hpRatio = (float)currentHp / maxHp;
-        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, hpRatio * fullWidth);
+        this.entityController = controller;
+        maxHp = entityController.stats.maxHp;
+
+        interpolatedHp = previousHp = entityController.CurrentHp;
+
+        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, CalcBarWidth());
         enabled = false;
     }
 }

@@ -1,19 +1,20 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class EntityController : MonoBehaviour
 {
-    private EntityStats stats;
+    public EntityStats stats;
 
     //State to be kept track of
     [HideInInspector]
-    public int currentHp;
+    public int CurrentHp { get; private set; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         stats = Resources.Load<EntityStats>(gameObject.tag);
-        currentHp = stats.maxHp;
+        CurrentHp = stats.maxHp;
 
     }
 
@@ -28,5 +29,10 @@ public class EntityController : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void ReduceHp(int damage)
+    {
+        CurrentHp -= Math.Abs(damage);
     }
 }

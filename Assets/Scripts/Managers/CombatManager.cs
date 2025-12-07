@@ -4,21 +4,17 @@ public class CombatManager : MonoBehaviour
 {
     public static CombatManager Instance { get; private set; }
 
-
-    EntityStats playerStats;
-    EntityStats enemyStats;
-
     //Player
     EntityController playerController;
 
     //Enemy
     EntityController enemyController;
 
+    //State
+    private string turnStatus = "Player";
+
     void Awake()
     {
-        playerStats = Resources.Load<EntityStats>("Player");
-        enemyStats = Resources.Load<EntityStats>("Boss");
-
         enemyController = GameObject.FindWithTag("Boss").GetComponent<EntityController>();
         playerController = GameObject.FindWithTag("Player").GetComponent<EntityController>();
         Instance = this;
@@ -28,33 +24,29 @@ public class CombatManager : MonoBehaviour
     /// Expects "Enemy" or "Player" as arguments. The recipient of the attack.
     /// </summary>
     /// <param name="targetType"></param>
-    public void AttackTarget(string targetType)
+    public void ConductCombat()
     {
-        Debug.Log("Attack called");
-        Debug.Log(enemyController.currentHp);
-        switch (targetType)
+        if (turnStatus == "Player")
         {
-            case "Enemy":
-                enemyController.currentHp -= playerStats.attack;
-                UIManager.Instance.UpdateHp(targetType, enemyController.currentHp);
-                break;
-            case "Player":
-                playerController.currentHp -= enemyStats.attack;
-                UIManager.Instance.UpdateHp(targetType, playerController.currentHp);
-                break;
-            default:
-                Debug.Log("No target found for attack");
-                break;
+            enemyController.ReduceHp(playerController.stats.attack);
+            turnStatus = "Enemy";
         }
+        else
+        {
+            playerController.ReduceHp(enemyController.stats.attack);
+            turnStatus = "Player";
+        }
+
+        UIManager.Instance.UpdateHp();
     }
 
     /// <summary>
-    /// Gets Player's current hp & max hp, and then Enemy's current hp & max hp.
+    /// Returns the player's EntityController and enemy's EntityController respectively
     /// </summary>
     /// <returns></returns>
-    public (int, int, int, int) GetCombatantsHpValues()
+    public (EntityController, EntityController) GetCombatantControllers()
     {
-        return (playerController.currentHp, playerStats.maxHp, enemyController.currentHp, enemyStats.maxHp);
+        return (playerController, enemyController);
     }
 
 }
