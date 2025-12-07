@@ -38,11 +38,11 @@ public class PlayerController : MonoBehaviour
 
     public void Parry(InputAction.CallbackContext context)
     {
-        Debug.Log("Parry attempt");
+
         if (!canParry) return;
+        Debug.Log("Parry went through");
         //callback context: https://docs.unity3d.com/Packages/com.unity.inputsystem@1.17/api/UnityEngine.InputSystem.InputAction.CallbackContext.html
-        double keyPressedAt = context.time;
-        lastParryTime = keyPressedAt;
+        lastParryTime = Time.timeAsDouble;
         canParry = false;
     }
 }

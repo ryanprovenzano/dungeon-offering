@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class CombatManager : MonoBehaviour
 {
@@ -15,19 +17,20 @@ public class CombatManager : MonoBehaviour
     //State
     private string turnStatus = "Player";
 
-    private enum ParryGrade
-    {
-        None = 0,
-        Poor = 20,
-        Good = 70,
-        Perfect = 100
-    }
+    //Parry window
+    double parryWindow;
+
 
     void Awake()
     {
         enemyController = GameObject.FindWithTag("Boss").GetComponent<EnemyController>();
         playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         Instance = this;
+    }
+
+    void Start()
+    {
+        parryWindow = enemyController.stats.parryWindow;
     }
 
     void Update()
@@ -37,37 +40,22 @@ public class CombatManager : MonoBehaviour
 
 
 
-    private ParryGrade GetParryGrade(double lastParriedAt, double attackOverlapsAt)
+
+
+    public double GetParryMultiplier(double lastParriedAt, double attackOverlapsAt)
     {
-        Debug.Log("Last Parried at: " + lastParriedAt + " Attack overlaps at: " + attackOverlapsAt);
-        double error = Math.Abs(lastParriedAt - attackOverlapsAt);
-        return error switch
-        {
-            < 0.2f => ParryGrade.Perfect,
-            < 0.4f => ParryGrade.Good,
-            < 0.6f => ParryGrade.Poor,
-            _ => ParryGrade.None
-        };
+        double difference = Math.Abs(lastParriedAt - attackOverlapsAt);
+        double ratio = Math.Clamp(difference / parryWindow, 0, 1);
+        // If player would get a 10% damage multiplier, we go all the way to 0
+        return ratio < 0.1 ? 0 : ratio;
     }
 
-    /// <summary>
-    /// Expects "Enemy" or "Player" as arguments. The recipient of the attack.
-    /// </summary>
-    /// <param name="targetType"></param>
-
+    public void StartAttackStepCoroutine()
+    {
+        StartCoroutine(ResolveAttackStep());
+    }
+    // We can't separate the Coroutine out of the rest of the attack step! Because the coroutine would just exit and the rest of the attack step will resolve
     private IEnumerator ResolveAttackStep()
-    {
-        playerController.canParry = true;
-        enemyController.animController.BeginAttackAnimation();
-        //get the contact frame of the attack
-        enemyController.lastAttackOverlapTime = Time.timeAsDouble + 1.03;
-
-        // Wait until player has parried or the enemy's attack animation has ended
-        yield return new WaitUntil(() => (playerController.canParry == false) || enemyController.animController.IsIdle());
-        Debug.Log("Parry window over, can character parry? " + playerController.canParry + " Enemy is idle? " + enemyController.animController.IsIdle());
-    }
-
-    public void BeginCombatStep()
     {
         if (turnStatus == "Player")
         {
@@ -76,14 +64,21 @@ public class CombatManager : MonoBehaviour
         }
         else
         {
-            StartCoroutine(ResolveAttackStep());
+            playerController.canParry = true;
+            enemyController.animController.BeginAttackAnimation();
+            //get the contact frame of the attack
+            enemyController.lastAttackOverlapTime = Time.timeAsDouble + 1.03;
 
-            // Parry grade
-            ParryGrade parryGrade = GetParryGrade(playerController.lastParryTime, enemyController.lastAttackOverlapTime);
+            // Need animation state of enemy to update
+            yield return new WaitForSeconds(0.1f);
+
+            // Wait until player has parried or the enemy's parry window has ended
+            // Old: waiting until enemyController.animController.IsIdle()
+            yield return new WaitUntil(() => Time.timeAsDouble > enemyController.lastAttackOverlapTime + parryWindow);
 
 
             // Apply damage
-            float damageMultiplier = (float)parryGrade / 100;
+            double damageMultiplier = GetParryMultiplier(playerController.lastParryTime, enemyController.lastAttackOverlapTime);
             playerController.ReduceHp((int)Math.Ceiling(enemyController.stats.attack * damageMultiplier));
 
             // Change turn status

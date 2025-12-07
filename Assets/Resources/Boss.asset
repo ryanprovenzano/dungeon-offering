@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 900
   attack: 100
+  parryWindow: 0.4
+  parryCooldown: 0

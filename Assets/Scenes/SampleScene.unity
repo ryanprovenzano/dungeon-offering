@@ -1551,7 +1551,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1634452062}
         m_TargetAssemblyTypeName: CombatManager, Assembly-CSharp
-        m_MethodName: BeginCombatStep
+        m_MethodName: StartAttackStepCoroutine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
