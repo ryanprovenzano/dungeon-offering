@@ -15,16 +15,16 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        (EntityController playerController, EntityController enemyController) = CombatManager.Instance.GetCombatantControllers();
+        (PlayerController playerController, EnemyController enemyController) = CombatManager.Instance.GetCombatantControllers();
 
-        playerHpBarController.InitializeHpBar(playerController);
-        enemyHpBarController.InitializeHpBar(enemyController);
+        playerHpBarController.InitializeHpBar(playerController.CurrentHp, playerController.stats.maxHp);
+        enemyHpBarController.InitializeHpBar(enemyController.CurrentHp, enemyController.stats.maxHp);
 
     }
 
-    public void UpdateHp()
+    public void UpdateHp(int enemyCurrentHp, int playerCurrentHp)
     {
-        enemyHpBarController.WakeHpBar();
-        playerHpBarController.WakeHpBar();
+        enemyHpBarController.NotifyHpBar(enemyCurrentHp);
+        playerHpBarController.NotifyHpBar(playerCurrentHp);
     }
 }

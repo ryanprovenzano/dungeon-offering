@@ -7,10 +7,10 @@ public class CombatManager : MonoBehaviour
     public static CombatManager Instance { get; private set; }
 
     //Player
-    EntityController playerController;
+    public PlayerController playerController;
 
     //Enemy
-    EntityController enemyController;
+    public EnemyController enemyController;
 
     //State
     private string turnStatus = "Player";
@@ -25,8 +25,8 @@ public class CombatManager : MonoBehaviour
 
     void Awake()
     {
-        enemyController = GameObject.FindWithTag("Boss").GetComponent<EntityController>();
-        playerController = GameObject.FindWithTag("Player").GetComponent<EntityController>();
+        enemyController = GameObject.FindWithTag("Boss").GetComponent<EnemyController>();
+        playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         Instance = this;
     }
 
@@ -39,24 +39,15 @@ public class CombatManager : MonoBehaviour
 
     private ParryGrade GetParryGrade(double lastParriedAt, double attackOverlapsAt)
     {
+        Debug.Log("Last Parried at: " + lastParriedAt + " Attack overlaps at: " + attackOverlapsAt);
         double error = Math.Abs(lastParriedAt - attackOverlapsAt);
-        ParryGrade parryGrade;
-        switch (error)
+        return error switch
         {
-            case < 0.2f:
-                parryGrade = ParryGrade.Perfect;
-                break;
-            case < 0.4f:
-                parryGrade = ParryGrade.Good;
-                break;
-            case < 0.6f:
-                parryGrade = ParryGrade.Poor;
-                break;
-            default:
-                parryGrade = ParryGrade.None;
-                break;
-        }
-        return parryGrade;
+            < 0.2f => ParryGrade.Perfect,
+            < 0.4f => ParryGrade.Good,
+            < 0.6f => ParryGrade.Poor,
+            _ => ParryGrade.None
+        };
     }
 
     /// <summary>
@@ -67,12 +58,13 @@ public class CombatManager : MonoBehaviour
     private IEnumerator ResolveAttackStep()
     {
         playerController.canParry = true;
-        enemyController.BeginAttackAnimation();
+        enemyController.animController.BeginAttackAnimation();
         //get the contact frame of the attack
-        enemyController.lastAttackOverlapTime = Time.timeAsDouble;
+        enemyController.lastAttackOverlapTime = Time.timeAsDouble + 1.03;
 
         // Wait until player has parried or the enemy's attack animation has ended
-        yield return new WaitUntil(() => (playerController.canParry == false) || !enemyController.isInAttackAnimation);
+        yield return new WaitUntil(() => (playerController.canParry == false) || enemyController.animController.IsIdle());
+        Debug.Log("Parry window over, can character parry? " + playerController.canParry + " Enemy is idle? " + enemyController.animController.IsIdle());
     }
 
     public void BeginCombatStep()
@@ -88,22 +80,24 @@ public class CombatManager : MonoBehaviour
 
             // Parry grade
             ParryGrade parryGrade = GetParryGrade(playerController.lastParryTime, enemyController.lastAttackOverlapTime);
-            float damageMultiplier = (float)parryGrade / 100;
+
+
             // Apply damage
+            float damageMultiplier = (float)parryGrade / 100;
             playerController.ReduceHp((int)Math.Ceiling(enemyController.stats.attack * damageMultiplier));
 
             // Change turn status
             turnStatus = "Player";
         }
 
-        UIManager.Instance.UpdateHp();
+        UIManager.Instance.UpdateHp(enemyController.CurrentHp, playerController.CurrentHp);
     }
 
     /// <summary>
-    /// Returns the player's EntityController and enemy's EntityController respectively
+    /// Returns the player's EntityController and enemy's EnemyController respectively
     /// </summary>
     /// <returns></returns>
-    public (EntityController, EntityController) GetCombatantControllers()
+    public (PlayerController, EnemyController) GetCombatantControllers()
     {
         return (playerController, enemyController);
     }

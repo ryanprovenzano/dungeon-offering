@@ -3,6 +3,7 @@ using UnityEngine;
 public class HPBarController : MonoBehaviour
 {
     private RectTransform rt;
+    public int currentHp;
     private int maxHp;
     private int interpolatedHp;
     private int previousHp;
@@ -10,9 +11,6 @@ public class HPBarController : MonoBehaviour
     private float hpBarAnimDuration = 1f;
     private float timeElapsed = 0;
     private readonly int fullWidth = 354;
-
-    //Reference to player's controller for HP
-    public EntityController entityController;
 
     void Awake()
     {
@@ -29,29 +27,30 @@ public class HPBarController : MonoBehaviour
     void Update()
     {
         // If HP Bar has not yet become the current hp
-        if (entityController.CurrentHp != interpolatedHp)
+        if (currentHp != interpolatedHp)
         {
             HandleHpUpdate();
         }
         else
         {
             // HP Bar transition completed, store current hp into previous hp, and disable to stop Update calls
-            previousHp = entityController.CurrentHp;
+            previousHp = currentHp;
             timeElapsed = 0;
             enabled = false;
         }
     }
 
-    public void WakeHpBar()
+    public void NotifyHpBar(int currentHp)
     {
         enabled = true;
+        this.currentHp = currentHp;
     }
 
     private void HandleHpUpdate()
     {
         timeElapsed += Time.deltaTime;
         float interpolationRatio = timeElapsed / hpBarAnimDuration;
-        interpolatedHp = (int)Mathf.SmoothStep(previousHp, entityController.CurrentHp, interpolationRatio);
+        interpolatedHp = (int)Mathf.SmoothStep(previousHp, currentHp, interpolationRatio);
         rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, CalcBarWidth());
     }
 
@@ -61,12 +60,12 @@ public class HPBarController : MonoBehaviour
     }
 
     // Call this from UIManager within Start() function.
-    public void InitializeHpBar(EntityController controller)
+    public void InitializeHpBar(int currentHp, int maxHp)
     {
-        this.entityController = controller;
-        maxHp = entityController.stats.maxHp;
+        this.currentHp = currentHp;
+        this.maxHp = maxHp;
 
-        interpolatedHp = previousHp = entityController.CurrentHp;
+        interpolatedHp = previousHp = currentHp;
 
         rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, CalcBarWidth());
         enabled = false;
