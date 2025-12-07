@@ -1160,6 +1160,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
+  isInAttackAnimation: 0
+  parryAction:
+    m_Name: Parry
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: d666706b-3db1-47fd-b073-93be36a75833
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  lastAttackOverlapTime: 0
+  lastParryTime: 0
+  canParry: 0
 --- !u!1 &1417226499
 GameObject:
   m_ObjectHideFlags: 0
@@ -1874,6 +1887,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
+  isInAttackAnimation: 0
+  parryAction:
+    m_Name: Parry
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 1ca493a3-cb3e-49f0-9163-5a1dcd6c8736
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  lastAttackOverlapTime: 0
+  lastParryTime: 0
+  canParry: 0
 --- !u!1 &1947704634
 GameObject:
   m_ObjectHideFlags: 0

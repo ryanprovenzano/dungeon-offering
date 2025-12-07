@@ -5,4 +5,6 @@ public class EntityStats : ScriptableObject
 {
     public int maxHp;
     public int attack;
+    public int parryWindow;
+    public float parryCooldown;
 }
