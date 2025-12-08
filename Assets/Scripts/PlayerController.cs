@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     {
         stats = Resources.Load<EntityStats>(gameObject.tag);
 
-        CurrentHp = stats.maxHp;
+        CurrentHp = stats.MaxHp;
 
         lastParryTime = Time.realtimeSinceStartup;
         parryAction = InputSystem.actions.FindAction("Parry");

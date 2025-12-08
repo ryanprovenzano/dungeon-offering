@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92b72755d3dd7274ebbe1e3a68842d44, type: 3}
   m_Name: Boss
   m_EditorClassIdentifier: 
-  maxHp: 900
-  attack: 100
-  parryWindow: 0.4
-  parryCooldown: 0
+  <ParryWindow>k__BackingField: 0.4
+  <MaxHp>k__BackingField: 2000
+  <Attack>k__BackingField: 100
+  <ParryCooldown>k__BackingField: 0

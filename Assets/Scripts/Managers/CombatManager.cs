@@ -30,17 +30,13 @@ public class CombatManager : MonoBehaviour
 
     void Start()
     {
-        parryWindow = enemyController.stats.parryWindow;
+        parryWindow = enemyController.stats.ParryWindow;
     }
 
     void Update()
     {
 
     }
-
-
-
-
 
     public double GetParryMultiplier(double lastParriedAt, double attackOverlapsAt)
     {
@@ -59,7 +55,7 @@ public class CombatManager : MonoBehaviour
     {
         if (turnStatus == "Player")
         {
-            enemyController.ReduceHp(playerController.stats.attack);
+            enemyController.ReduceHp(playerController.stats.Attack);
             turnStatus = "Enemy";
         }
         else
@@ -79,7 +75,7 @@ public class CombatManager : MonoBehaviour
 
             // Apply damage
             double damageMultiplier = GetParryMultiplier(playerController.lastParryTime, enemyController.lastAttackOverlapTime);
-            playerController.ReduceHp((int)Math.Ceiling(enemyController.stats.attack * damageMultiplier));
+            playerController.ReduceHp((int)Math.Ceiling(enemyController.stats.Attack * damageMultiplier));
 
             // Change turn status
             turnStatus = "Player";

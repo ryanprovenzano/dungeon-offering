@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour
         stats = Resources.Load<EntityStats>(gameObject.tag);
         animController = GetComponentInChildren<EnemyAnimationController>();
 
-        CurrentHp = stats.maxHp;
+        CurrentHp = stats.MaxHp;
     }
 
     public void ReduceHp(int damage)

@@ -17,8 +17,8 @@ public class UIManager : MonoBehaviour
     {
         (PlayerController playerController, EnemyController enemyController) = CombatManager.Instance.GetCombatantControllers();
 
-        playerHpBarController.InitializeHpBar(playerController.CurrentHp, playerController.stats.maxHp);
-        enemyHpBarController.InitializeHpBar(enemyController.CurrentHp, enemyController.stats.maxHp);
+        playerHpBarController.InitializeHpBar(playerController.CurrentHp, playerController.stats.MaxHp);
+        enemyHpBarController.InitializeHpBar(enemyController.CurrentHp, enemyController.stats.MaxHp);
 
     }
 
