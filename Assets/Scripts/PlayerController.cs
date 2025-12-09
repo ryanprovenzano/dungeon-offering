@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Parry went through");
         //callback context: https://docs.unity3d.com/Packages/com.unity.inputsystem@1.17/api/UnityEngine.InputSystem.InputAction.CallbackContext.html
         lastParryTime = Time.timeAsDouble;
+        AudioManager.Instance.PlaySound(AudioManager.Instance.GetRegularBlockClip());
         canParry = false;
     }
 }
