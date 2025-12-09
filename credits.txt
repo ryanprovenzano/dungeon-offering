@@ -1,0 +1,5 @@
+Soundtrack: https://opengameart.org/content/welcome-to-the-hell-soundtrack by Fato Shadow
+Sword SFX: https://opengameart.org/content/3-melee-sounds by remaxim
+
+Death SFX made using https://sfxr.me/
+Magic beam SFX made using https://www.bfxr.net/

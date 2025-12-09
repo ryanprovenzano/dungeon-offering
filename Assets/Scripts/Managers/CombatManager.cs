@@ -1,12 +1,10 @@
 using System;
 using System.Collections;
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class CombatManager : MonoBehaviour
 {
-    public static CombatManager Instance { get; private set; }
+    public static CombatManager instance;
 
     //Player
     public PlayerController playerController;
@@ -20,12 +18,15 @@ public class CombatManager : MonoBehaviour
     //Parry window
     double parryWindow;
 
+    //Events
+    public event EventHandler OnEnemyAttackBegins;
+
 
     void Awake()
     {
         enemyController = GameObject.FindWithTag("Boss").GetComponent<EnemyController>();
         playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-        Instance = this;
+        instance = this;
     }
 
     void Start()
@@ -50,6 +51,9 @@ public class CombatManager : MonoBehaviour
     {
         StartCoroutine(ResolveAttackStep());
     }
+
+
+
     // We can't separate the Coroutine out of the rest of the attack step! Because the coroutine would just exit and the rest of the attack step will resolve
     private IEnumerator ResolveAttackStep()
     {
@@ -61,12 +65,12 @@ public class CombatManager : MonoBehaviour
         else
         {
             playerController.canParry = true;
-            enemyController.animController.BeginAttackAnimation();
+            OnEnemyAttackBegins?.Invoke(this, EventArgs.Empty);
             //get the contact frame of the attack
-            enemyController.lastAttackOverlapTime = Time.timeAsDouble + 1.03;
+            enemyController.lastAttackOverlapTime = Time.timeAsDouble + enemyController.stats.TimeUntilContact;
 
             // Need animation state of enemy to update
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
 
             // Wait until player has parried or the enemy's parry window has ended
             // Old: waiting until enemyController.animController.IsIdle()
@@ -81,7 +85,7 @@ public class CombatManager : MonoBehaviour
             turnStatus = "Player";
         }
 
-        UIManager.Instance.UpdateHp(enemyController.CurrentHp, playerController.CurrentHp);
+        UIManager.instance.UpdateHp(enemyController.CurrentHp, playerController.CurrentHp);
     }
 
     /// <summary>

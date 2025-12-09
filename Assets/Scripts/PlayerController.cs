@@ -27,8 +27,20 @@ public class PlayerController : MonoBehaviour
         CurrentHp = stats.MaxHp;
 
         lastParryTime = Time.realtimeSinceStartup;
+
+    }
+
+    void Start()
+    {
         parryAction = InputSystem.actions.FindAction("Parry");
+        parryAction.Enable();
         parryAction.started += Parry;
+    }
+
+    void OnDisable()
+    {
+        parryAction.started -= Parry;
+        parryAction.Disable();
     }
 
     public void ReduceHp(int damage)
@@ -38,7 +50,7 @@ public class PlayerController : MonoBehaviour
 
     public void Parry(InputAction.CallbackContext context)
     {
-
+        Debug.Log("Checking parry");
         if (!canParry) return;
         Debug.Log("Parry went through");
         //callback context: https://docs.unity3d.com/Packages/com.unity.inputsystem@1.17/api/UnityEngine.InputSystem.InputAction.CallbackContext.html

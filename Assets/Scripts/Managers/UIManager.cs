@@ -2,20 +2,20 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance { get; private set; }
+    public static UIManager instance;
     HPBarController playerHpBarController;
     HPBarController enemyHpBarController;
 
     void Awake()
     {
-        Instance = this;
+        instance = this;
         playerHpBarController = GameObject.FindWithTag("PlayerHPBar").GetComponent<HPBarController>();
         enemyHpBarController = GameObject.FindWithTag("EnemyHPBar").GetComponent<HPBarController>();
     }
 
     void Start()
     {
-        (PlayerController playerController, EnemyController enemyController) = CombatManager.Instance.GetCombatantControllers();
+        (PlayerController playerController, EnemyController enemyController) = CombatManager.instance.GetCombatantControllers();
 
         playerHpBarController.InitializeHpBar(playerController.CurrentHp, playerController.stats.MaxHp);
         enemyHpBarController.InitializeHpBar(enemyController.CurrentHp, enemyController.stats.MaxHp);
