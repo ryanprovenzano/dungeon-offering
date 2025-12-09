@@ -20,6 +20,7 @@ public class CombatManager : MonoBehaviour
 
     //Events
     public event EventHandler OnEnemyAttackBegins;
+    public event EventHandler OnTurnEnd;
 
 
     void Awake()
@@ -80,9 +81,11 @@ public class CombatManager : MonoBehaviour
 
             // Change turn status
             turnStatus = "Player";
+
         }
 
         UIManager.instance.UpdateHp(enemyController.CurrentHp, playerController.CurrentHp);
+        OnTurnEnd?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>

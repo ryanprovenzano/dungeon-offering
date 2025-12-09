@@ -24,8 +24,23 @@ public class EnemyController : MonoBehaviour
         CurrentHp = stats.MaxHp;
     }
 
+    void Start()
+    {
+        CombatManager.instance.OnTurnEnd += CheckDeath;
+    }
+
     public void ReduceHp(int damage)
     {
         CurrentHp -= Math.Abs(damage);
+    }
+
+    public void CheckDeath(object sender, EventArgs e)
+    {
+        if (CurrentHp <= 0)
+        {
+            AudioManager.Instance.PlayDeathSound();
+            CombatManager.instance.OnTurnEnd -= CheckDeath;
+            Destroy(gameObject);
+        }
     }
 }

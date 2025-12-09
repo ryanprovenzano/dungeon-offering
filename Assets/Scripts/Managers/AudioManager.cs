@@ -76,4 +76,9 @@ public class AudioManager : MonoBehaviour
         meleeSoundIndex = (meleeSoundIndex + 1) % 3;
         return audioClip;
     }
+
+    public void PlayDeathSound()
+    {
+        PlaySound(sounds.death);
+    }
 }
