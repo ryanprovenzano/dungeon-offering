@@ -69,9 +69,6 @@ public class CombatManager : MonoBehaviour
             //get the contact frame of the attack
             enemyController.lastAttackOverlapTime = Time.timeAsDouble + enemyController.stats.TimeUntilContact;
 
-            // Need animation state of enemy to update
-            yield return new WaitForSeconds(0.05f);
-
             // Wait until player has parried or the enemy's parry window has ended
             // Old: waiting until enemyController.animController.IsIdle()
             yield return new WaitUntil(() => Time.timeAsDouble > enemyController.lastAttackOverlapTime + parryWindow);
