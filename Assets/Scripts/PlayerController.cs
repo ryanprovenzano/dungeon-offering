@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("AttackAnimTrig");
         AudioClip audioClip = AudioManager.Instance.GetMeleeSoundClip();
-        AudioManager.Instance.PlayDelayedSound(audioClip, 1.03f);
+        StartCoroutine(AudioManager.Instance.PlayDelayedSound(audioClip, .95f));
         // call or set animation bool here, or make the above an animation bool
     }
 

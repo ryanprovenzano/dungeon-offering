@@ -53,6 +53,6 @@ public class EnemyAnimationController : MonoBehaviour
 
     private float CalcAttackSFXDelay(AudioClip audioClip)
     {
-        return (float)enemyStats.TimeUntilContact - audioClip.length / 1.7f;
+        return (float)enemyStats.TimeUntilContact - audioClip.length / 1.8f;
     }
 }
