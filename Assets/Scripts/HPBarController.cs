@@ -29,7 +29,7 @@ public class HPBarController : MonoBehaviour
         // If HP Bar has not yet become the current hp
         if (currentHp != interpolatedHp)
         {
-            HandleHpUpdate();
+            HpUpdateHandler();
         }
         else
         {
@@ -46,7 +46,7 @@ public class HPBarController : MonoBehaviour
         this.currentHp = currentHp;
     }
 
-    private void HandleHpUpdate()
+    private void HpUpdateHandler()
     {
         timeElapsed += Time.deltaTime;
         float interpolationRatio = timeElapsed / hpBarAnimDuration;

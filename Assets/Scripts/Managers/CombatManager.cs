@@ -19,8 +19,13 @@ public class CombatManager : MonoBehaviour
     double parryWindow;
 
     //Events
-    public event EventHandler OnEnemyAttackBegins;
-    public event EventHandler OnTurnEnd;
+    public event EventHandler EnemyAttackStarted;
+    public event EventHandler PlayerAttackStarted;
+    public event EventHandler TurnEnded;
+    public event EventHandler EnemyTurnBegun;
+
+    //Manager references
+    private AudioManager _audioManager;
 
 
     void Awake()
@@ -33,6 +38,11 @@ public class CombatManager : MonoBehaviour
     void Start()
     {
         parryWindow = enemyController.stats.ParryWindow;
+        _audioManager = AudioManager.Instance;
+
+        //Subscribe to events
+        enemyController.EnemyDeath += EnemyDeathHandler;
+        EnemyTurnBegun += EnemyTurnBegunHandler;
     }
 
     void Update()
@@ -40,52 +50,104 @@ public class CombatManager : MonoBehaviour
 
     }
 
+    void OnDisable()
+    {
+        //Unsubscribe to events
+
+        enemyController.EnemyDeath -= EnemyDeathHandler;
+        EnemyTurnBegun -= EnemyTurnBegunHandler;
+    }
+
     public double GetParryMultiplier(double lastParriedAt, double attackOverlapsAt)
     {
         double difference = Math.Abs(lastParriedAt - attackOverlapsAt);
         double ratio = Math.Clamp(difference / parryWindow, 0, 1);
-        // If player would get a 10% damage multiplier, we go all the way to 0
-        return ratio < 0.1 ? 0 : ratio;
+        // If player would get a 15% damage multiplier, we go all the way to 0
+        return ratio < 0.15 ? 0 : ratio;
     }
 
-    public void StartAttackStepCoroutine()
+
+
+    private bool IsParryPhaseOver()
     {
-        StartCoroutine(ResolveAttackStep());
+        if (Time.timeAsDouble > enemyController.lastAttackOverlapTime + parryWindow)
+        {
+            return true;
+        }
+        if (!playerController.canParry) return true;
+
+        return false;
     }
 
 
+    private void EnemyTurnBegunHandler(object sender, EventArgs e)
+    {
+        if (!(turnStatus == "Enemy")) return;
+        StartCoroutine(ResolveEnemyAttackStep());
+    }
+
+    private IEnumerator ResolvePlayerAttackStep()
+    {
+        PlayerAttackStarted?.Invoke(this, EventArgs.Empty);
+        yield return new WaitForSeconds(AudioManager.Instance.GetMeleeSoundClip().length + 2);
+        enemyController.ReduceHp(playerController.stats.Attack);
+        ResolveTurnEnd();
+        EnemyTurnBegun?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void TryPlayerAttack()
+    {
+        if (!(turnStatus == "Player")) return;
+        StartCoroutine(ResolvePlayerAttackStep());
+    }
 
     // We can't separate the Coroutine out of the rest of the attack step! Because the coroutine would just exit and the rest of the attack step will resolve
-    private IEnumerator ResolveAttackStep()
+    private IEnumerator ResolveEnemyAttackStep()
     {
+        playerController.canParry = true;
+
+        EnemyAttackStarted?.Invoke(this, EventArgs.Empty);
+        //get the contact frame of the attack
+        enemyController.lastAttackOverlapTime = Time.timeAsDouble + enemyController.stats.TimeUntilContact;
+
+        // Wait until player has parried or the enemy's parry window has ended
+        yield return new WaitUntil(IsParryPhaseOver);
+
+        double damageMultiplier = GetParryMultiplier(playerController.lastParryTime, enemyController.lastAttackOverlapTime);
+
+        //Determine & call parry sound. Only calls a sound if the player activated their parry.
+        if (!playerController.canParry)
+        {
+            if (damageMultiplier == 0)
+            {
+                _audioManager.PlaySound(_audioManager.GetPerfectBlockClip());
+            }
+            else _audioManager.PlaySound(_audioManager.GetRegularBlockClip());
+        }
+        playerController.ReduceHp((int)Math.Ceiling(enemyController.stats.Attack * damageMultiplier));
+
+        ResolveTurnEnd();
+    }
+
+    private void ResolveTurnEnd()
+    {
+        // Change turn status
         if (turnStatus == "Player")
         {
-            enemyController.ReduceHp(playerController.stats.Attack);
             turnStatus = "Enemy";
         }
-        else
+        else if (turnStatus == "Enemy")
         {
-            playerController.canParry = true;
-            OnEnemyAttackBegins?.Invoke(this, EventArgs.Empty);
-            //get the contact frame of the attack
-            enemyController.lastAttackOverlapTime = Time.timeAsDouble + enemyController.stats.TimeUntilContact;
-
-            // Wait until player has parried or the enemy's parry window has ended
-            // Old: waiting until enemyController.animController.IsIdle()
-            yield return new WaitUntil(() => Time.timeAsDouble > enemyController.lastAttackOverlapTime + parryWindow);
-
-
-            // Apply damage
-            double damageMultiplier = GetParryMultiplier(playerController.lastParryTime, enemyController.lastAttackOverlapTime);
-            playerController.ReduceHp((int)Math.Ceiling(enemyController.stats.Attack * damageMultiplier));
-
-            // Change turn status
             turnStatus = "Player";
-
         }
 
         UIManager.instance.UpdateHp(enemyController.CurrentHp, playerController.CurrentHp);
-        OnTurnEnd?.Invoke(this, EventArgs.Empty);
+        TurnEnded?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void EnemyDeathHandler(object sender, EventArgs e)
+    {
+        turnStatus = "PlayerWon";
     }
 
     /// <summary>

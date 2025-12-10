@@ -13,6 +13,7 @@ public class EnemyController : MonoBehaviour
 
     public double lastAttackOverlapTime;
     public EnemyAnimationController animController;
+    public event EventHandler EnemyDeath;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -26,7 +27,7 @@ public class EnemyController : MonoBehaviour
 
     void Start()
     {
-        CombatManager.instance.OnTurnEnd += CheckDeath;
+        CombatManager.instance.TurnEnded += TurnEndedHandler;
     }
 
     public void ReduceHp(int damage)
@@ -34,13 +35,18 @@ public class EnemyController : MonoBehaviour
         CurrentHp -= Math.Abs(damage);
     }
 
-    public void CheckDeath(object sender, EventArgs e)
+    public void TurnEndedHandler(object sender, EventArgs e)
     {
         if (CurrentHp <= 0)
         {
             AudioManager.Instance.PlayDeathSound();
-            CombatManager.instance.OnTurnEnd -= CheckDeath;
+            CombatManager.instance.TurnEnded -= TurnEndedHandler;
+
+            EnemyDeath?.Invoke(this, e);
+
             Destroy(gameObject);
         }
     }
+
+
 }

@@ -12,7 +12,7 @@ public class EnemyAnimationController : MonoBehaviour
 
     void Awake()
     {
-        animator = GetComponentInChildren<Animator>();
+        animator = GetComponent<Animator>();
     }
 
 
@@ -21,18 +21,13 @@ public class EnemyAnimationController : MonoBehaviour
         Debug.Log("Running the Start method");
         enemyStats = GetComponent<EnemyController>().stats;
         combatManager = CombatManager.instance;
-        combatManager.OnEnemyAttackBegins += BeginAttackAnimation;
-
-    }
-
-    void OnEnable()
-    {
+        combatManager.EnemyAttackStarted += EnemyAttackStartedHandler;
 
     }
 
     void OnDisable()
     {
-        combatManager.OnEnemyAttackBegins -= BeginAttackAnimation;
+        combatManager.EnemyAttackStarted -= EnemyAttackStartedHandler;
     }
 
     void Update()
@@ -48,7 +43,7 @@ public class EnemyAnimationController : MonoBehaviour
 
     }
 
-    public void BeginAttackAnimation(object sender, EventArgs e)
+    public void EnemyAttackStartedHandler(object sender, EventArgs e)
     {
         animator.SetTrigger("AttackAnimTrig");
         AudioClip audioClip = AudioManager.Instance.GetMeleeSoundClip();
