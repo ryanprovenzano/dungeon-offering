@@ -88,6 +88,7 @@ public class CombatManager : MonoBehaviour
 
     private IEnumerator ResolvePlayerAttackStep()
     {
+        turnStatus = "PlayerTurnInProgress";
         PlayerAttackStarted?.Invoke(this, EventArgs.Empty);
         yield return new WaitForSeconds(AudioManager.Instance.GetMeleeSoundClip().length + 2);
         enemyController.ReduceHp(playerController.stats.Attack);
@@ -104,6 +105,7 @@ public class CombatManager : MonoBehaviour
     // We can't separate the Coroutine out of the rest of the attack step! Because the coroutine would just exit and the rest of the attack step will resolve
     private IEnumerator ResolveEnemyAttackStep()
     {
+        turnStatus = "EnemyTurnInProgress";
         playerController.canParry = true;
 
         EnemyAttackStarted?.Invoke(this, EventArgs.Empty);
@@ -132,11 +134,11 @@ public class CombatManager : MonoBehaviour
     private void ResolveTurnEnd()
     {
         // Change turn status
-        if (turnStatus == "Player")
+        if (turnStatus == "PlayerTurnInProgress")
         {
             turnStatus = "Enemy";
         }
-        else if (turnStatus == "Enemy")
+        else if (turnStatus == "EnemyTurnInProgress")
         {
             turnStatus = "Player";
         }
