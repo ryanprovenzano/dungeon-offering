@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: a527f9a559709394f8a3c04ac55acc8a
+guid: aa41112c36807db4c828f438dabc48c5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3880529968885569102
-    second: Pillar_0
+      213: 7526527070737061704
+    second: Vases_0
+  - first:
+      213: -5571886982231761019
+    second: Vases_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -53,7 +56,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 108
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -113,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Pillar_0
+      name: Vases_Big
       rect:
         serializedVersion: 2
-        x: 38
-        y: 0
-        width: 181
-        height: 1023
+        x: 8
+        y: 73
+        width: 159
+        height: 365
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +131,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e469eaf52796ad530800000000000000
-      internalID: 3880529968885569102
+      spriteID: 847d4ab5e78937860800000000000000
+      internalID: 7526527070737061704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vases_Small
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 73
+        width: 74
+        height: 169
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58fd37f8f4eaca2b0800000000000000
+      internalID: -5571886982231761019
       vertices: []
       indices: 
       edges: []
@@ -138,7 +163,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 0a4eea71425d1534881fe8fe170d4555
+    spriteID: 78b1e7bd356c4df4c8958e824977ca07
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +173,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Pillar_0: 3880529968885569102
+      Vases_Big: 7526527070737061704
+      Vases_Small: -5571886982231761019
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
