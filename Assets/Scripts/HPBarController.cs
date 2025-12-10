@@ -38,6 +38,19 @@ public class HPBarController : MonoBehaviour
             timeElapsed = 0;
             enabled = false;
         }
+
+        if (CombatManager.instance.turnStatus == "PlayerWon")
+        {
+
+            GameObject temp = GameObject.FindGameObjectWithTag("EnemyHPBar");
+            Transform parentTransform = temp.transform.parent;
+
+            if (parentTransform != null)
+            {
+                GameObject parentGameObject = parentTransform.gameObject;
+                Destroy(parentGameObject);
+            }
+        }
     }
 
     public void NotifyHpBar(int currentHp)

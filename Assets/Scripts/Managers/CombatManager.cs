@@ -13,7 +13,7 @@ public class CombatManager : MonoBehaviour
     public EnemyController enemyController;
 
     //State
-    private string turnStatus = "Player";
+    public string turnStatus = "Player";
 
     //Parry window
     double parryWindow;
@@ -23,6 +23,7 @@ public class CombatManager : MonoBehaviour
     public event EventHandler PlayerAttackStarted;
     public event EventHandler TurnEnded;
     public event EventHandler EnemyTurnBegun;
+    public event EventHandler GameFinished;
 
     //Manager references
     private AudioManager _audioManager;
@@ -42,6 +43,7 @@ public class CombatManager : MonoBehaviour
 
         //Subscribe to events
         enemyController.EnemyDeath += EnemyDeathHandler;
+        playerController.PlayerDeath += PlayerDeathHandler;
         EnemyTurnBegun += EnemyTurnBegunHandler;
     }
 
@@ -55,6 +57,7 @@ public class CombatManager : MonoBehaviour
         //Unsubscribe to events
 
         enemyController.EnemyDeath -= EnemyDeathHandler;
+        playerController.PlayerDeath -= PlayerDeathHandler;
         EnemyTurnBegun -= EnemyTurnBegunHandler;
     }
 
@@ -150,7 +153,15 @@ public class CombatManager : MonoBehaviour
     private void EnemyDeathHandler(object sender, EventArgs e)
     {
         turnStatus = "PlayerWon";
+        GameFinished?.Invoke(this, EventArgs.Empty);
     }
+
+    private void PlayerDeathHandler(object sender, EventArgs e)
+    {
+        turnStatus = "PlayerLost";
+        GameFinished?.Invoke(this, EventArgs.Empty);
+    }
+
 
     /// <summary>
     /// Returns the player's EntityController and enemy's EnemyController respectively

@@ -15,4 +15,5 @@ MonoBehaviour:
   <ParryWindow>k__BackingField: 0
   <MaxHp>k__BackingField: 900
   <Attack>k__BackingField: 100
+  <TimeUntilContact>k__BackingField: 0
   <ParryCooldown>k__BackingField: 0

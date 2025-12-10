@@ -8,6 +8,8 @@ TagManager:
   - PlayerHPBar
   - EnemyHPBar
   - Boss
+  - WinText
+  - LossText
   layers:
   - Default
   - TransparentFX

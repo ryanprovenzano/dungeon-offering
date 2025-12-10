@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public double lastParryTime;
     public bool canParry;
     private Animator animator;
+    public EventHandler PlayerDeath;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
         parryAction.Enable();
         parryAction.started += Parry;
         CombatManager.instance.PlayerAttackStarted += PlayerAttackStartedHandler;
+        CombatManager.instance.TurnEnded += TurnEndedHandler;
     }
 
     void OnDisable()
@@ -80,8 +82,16 @@ public class PlayerController : MonoBehaviour
         // call or set animation bool here, or make the above an animation bool
     }
 
-    private float CalcAttackSFXDelay(AudioClip audioClip)
+    public void TurnEndedHandler(object sender, EventArgs e)
     {
-        return (float)stats.TimeUntilContact - audioClip.length / 1.7f;
+        if (CurrentHp <= 0)
+        {
+            AudioManager.Instance.PlayDeathSound();
+            CombatManager.instance.TurnEnded -= TurnEndedHandler;
+
+            PlayerDeath?.Invoke(this, e);
+
+            Destroy(gameObject);
+        }
     }
 }
