@@ -24,8 +24,8 @@
 /[Rr]ecordings/
 
 # Reference files, sketching, and moodboards
-/[Mm]oodboards
-/[Ss]ketching
+/[Mm]oodboards/
+/[Ss]ketching/
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
