@@ -23,6 +23,7 @@ public class CombatManager : MonoBehaviour
     public event EventHandler PlayerAttackStarted;
     public event EventHandler TurnEnded;
     public event EventHandler EnemyTurnBegun;
+    public event EventHandler HpCheck;
     public event EventHandler GameFinished;
 
     //Manager references
@@ -93,9 +94,12 @@ public class CombatManager : MonoBehaviour
     {
         turnStatus = "PlayerTurnInProgress";
         PlayerAttackStarted?.Invoke(this, EventArgs.Empty);
-        yield return new WaitForSeconds(AudioManager.Instance.GetMeleeSoundClip().length + 2);
-        enemyController.ReduceHp(playerController.stats.Attack);
+        yield return new WaitForSeconds(AudioManager.Instance.GetMeleeSoundClip().length + 0.5f);
+
+        enemyController.ReceiveDamage(playerController.stats.Attack);
+
         ResolveTurnEnd();
+        yield return new WaitForSeconds(1f);
         EnemyTurnBegun?.Invoke(this, EventArgs.Empty);
     }
 
@@ -129,7 +133,7 @@ public class CombatManager : MonoBehaviour
             }
             else _audioManager.PlaySound(_audioManager.GetRegularBlockClip());
         }
-        playerController.ReduceHp((int)Math.Ceiling(enemyController.stats.Attack * damageMultiplier));
+        playerController.ReceiveDamage((int)Math.Ceiling(enemyController.stats.Attack * damageMultiplier));
 
         ResolveTurnEnd();
     }
@@ -146,7 +150,7 @@ public class CombatManager : MonoBehaviour
             turnStatus = "Player";
         }
 
-        UIManager.instance.UpdateHp(enemyController.CurrentHp, playerController.CurrentHp);
+        HpCheck?.Invoke(this, EventArgs.Empty);
         TurnEnded?.Invoke(this, EventArgs.Empty);
     }
 
@@ -161,18 +165,6 @@ public class CombatManager : MonoBehaviour
         turnStatus = "PlayerLost";
         GameFinished?.Invoke(this, EventArgs.Empty);
     }
-
-
-    /// <summary>
-    /// Returns the player's EntityController and enemy's EnemyController respectively
-    /// </summary>
-    /// <returns></returns>
-    public (PlayerController, EnemyController) GetCombatantControllers()
-    {
-        return (playerController, enemyController);
-    }
-
-
 
 }
 

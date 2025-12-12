@@ -6,14 +6,10 @@ public class EnemyController : MonoBehaviour
     public EntityStats stats;
     public Animator swordAnimator;
 
-
-    //State to be kept track of
-    [HideInInspector]
-    public int CurrentHp { get; private set; }
-
     public double lastAttackOverlapTime;
     public EnemyAnimationController animController;
     public event EventHandler EnemyDeath;
+    private Health _health;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -21,8 +17,8 @@ public class EnemyController : MonoBehaviour
     {
         stats = Resources.Load<EntityStats>(gameObject.tag);
         animController = GetComponentInChildren<EnemyAnimationController>();
+        _health = GetComponent<Health>();
 
-        CurrentHp = stats.MaxHp;
     }
 
     void Start()
@@ -30,14 +26,9 @@ public class EnemyController : MonoBehaviour
         CombatManager.instance.TurnEnded += TurnEndedHandler;
     }
 
-    public void ReduceHp(int damage)
-    {
-        CurrentHp -= Math.Abs(damage);
-    }
-
     public void TurnEndedHandler(object sender, EventArgs e)
     {
-        if (CurrentHp <= 0)
+        if (_health.IsDepleted())
         {
             AudioManager.Instance.PlayDeathSound();
             CombatManager.instance.TurnEnded -= TurnEndedHandler;
@@ -46,6 +37,11 @@ public class EnemyController : MonoBehaviour
 
             Destroy(gameObject);
         }
+    }
+
+    public void ReceiveDamage(int damage)
+    {
+        _health.Reduce(damage);
     }
 
 

@@ -6,11 +6,6 @@ public class PlayerController : MonoBehaviour
 {
     public EntityStats stats;
 
-
-    //State to be kept track of
-    [HideInInspector]
-    public int CurrentHp { get; private set; }
-
     //Parrying
     public InputAction parryAction;
 
@@ -20,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public bool canParry;
     private Animator animator;
     public EventHandler PlayerDeath;
+    private Health _health;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -27,9 +23,8 @@ public class PlayerController : MonoBehaviour
         stats = Resources.Load<EntityStats>(gameObject.tag);
         animator = GetComponent<Animator>();
 
-        CurrentHp = stats.MaxHp;
-
         lastParryTime = Time.realtimeSinceStartup;
+        _health = GetComponent<Health>();
 
     }
 
@@ -50,11 +45,6 @@ public class PlayerController : MonoBehaviour
         parryAction.Disable();
     }
 
-    public void ReduceHp(int damage)
-    {
-        CurrentHp -= Math.Abs(damage);
-    }
-
     public void Parry(InputAction.CallbackContext context)
     {
         Debug.Log("Checking parry");
@@ -66,14 +56,6 @@ public class PlayerController : MonoBehaviour
         canParry = false;
     }
 
-    public bool IsIdle()
-    {
-        AnimatorStateInfo animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        return animStateInfo.IsTag("Idle");
-
-    }
-
-
     public void PlayerAttackStartedHandler(object sender, EventArgs e)
     {
         animator.SetTrigger("AttackAnimTrig");
@@ -84,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
     public void TurnEndedHandler(object sender, EventArgs e)
     {
-        if (CurrentHp <= 0)
+        if (_health.IsDepleted())
         {
             AudioManager.Instance.PlayDeathSound();
             CombatManager.instance.TurnEnded -= TurnEndedHandler;
@@ -93,5 +75,9 @@ public class PlayerController : MonoBehaviour
 
             Destroy(gameObject);
         }
+    }
+    public void ReceiveDamage(int damage)
+    {
+        _health.Reduce(damage);
     }
 }
