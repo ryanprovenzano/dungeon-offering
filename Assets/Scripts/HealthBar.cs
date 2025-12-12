@@ -72,12 +72,18 @@ public class HealthBar : MonoBehaviour
         while (interpolatedHp != _healthComponent.Current)
         {
             timeElapsed += Time.deltaTime;
-            interpolationRatio = timeElapsed / hpBarAnimDuration;
+            interpolationRatio = EaseOutQuad(timeElapsed / hpBarAnimDuration);
             interpolatedHp = (int)Mathf.SmoothStep(previousHp, _healthComponent.Current, interpolationRatio);
             rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, CalcBarWidth());
 
             yield return null;
         }
+    }
+
+    // Custom ease-out (fast start, slow end) for snappier HP bar animation
+    float EaseOutQuad(float t)
+    {
+        return t * (2 - t);
     }
 
     private float CalcBarWidth()
