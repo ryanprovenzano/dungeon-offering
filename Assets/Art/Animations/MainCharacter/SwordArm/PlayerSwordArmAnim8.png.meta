@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e31fada0da0af6143a50f77bbade4da3
+guid: f9043c5bb397b6a4fa5bc38f28fc3ba8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6636564988591240999
-    second: Char Arm + Sword0002_0
+      213: 3720144537075797908
+    second: PlayerSwordArmAnim8_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,11 +49,11 @@ TextureImporter:
   spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
+  alignment: 7
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 108
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Char Arm + Sword0002_0
+      name: PlayerSwordArmAnim8_0
       rect:
         serializedVersion: 2
-        x: 548
-        y: 236
-        width: 98
-        height: 197
+        x: 70
+        y: 95
+        width: 121
+        height: 199
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 72776c1f1b0d91c50800000000000000
-      internalID: 6636564988591240999
+      spriteID: 49f438d0fbb90a330800000000000000
+      internalID: 3720144537075797908
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Char Arm + Sword0002_0: 6636564988591240999
+      PlayerSwordArmAnim8_0: 3720144537075797908
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

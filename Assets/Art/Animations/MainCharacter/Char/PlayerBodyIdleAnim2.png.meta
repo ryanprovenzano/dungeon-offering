@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 412d91b1100ba384fab848af9cdef031
+guid: dfc432149e8583a4fa5be044e309fbf8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -948074164385203086
-    second: Char Arm + Sword0005_0
-  - first:
-      213: -1890467365036077158
-    second: Char Arm + Sword0005_1
+      213: 4951116140755622951
+    second: PlayerBodyIdleAnim2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +49,7 @@ TextureImporter:
   spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
+  alignment: 7
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 108
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -75,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -116,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Char Arm + Sword0005_0
+      name: PlayerBodyIdleAnim2_0
       rect:
         serializedVersion: 2
-        x: 549
-        y: 194
-        width: 201
-        height: 143
+        x: 8
+        y: 0
+        width: 104
+        height: 240
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,30 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 27c38131293c7d2f0800000000000000
-      internalID: -948074164385203086
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Char Arm + Sword0005_1
-      rect:
-        serializedVersion: 2
-        x: 700
-        y: 301
-        width: 25
-        height: 42
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a9f4e8792f5b3c5e0800000000000000
-      internalID: -1890467365036077158
+      spriteID: 72c117bd5e5e5b440800000000000000
+      internalID: 4951116140755622951
       vertices: []
       indices: 
       edges: []
@@ -173,8 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Char Arm + Sword0005_0: -948074164385203086
-      Char Arm + Sword0005_1: -1890467365036077158
+      PlayerBodyIdleAnim2_0: 4951116140755622951
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

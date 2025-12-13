@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 238f86cf764ca3d4c84db79259468722
+guid: c824a17027deb6148820d6be1544de7d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 883048432313833013
-    second: Char0003_0
+      213: 1920805599088813900
+    second: PlayerSwordArmAnim4_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -53,7 +53,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 108
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Char0003_0
+      name: PlayerSwordArmAnim4_0
       rect:
         serializedVersion: 2
-        x: 463
-        y: 127
-        width: 114
-        height: 237
+        x: 13
+        y: 124
+        width: 170
+        height: 169
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 536188fded7314c00800000000000000
-      internalID: 883048432313833013
+      spriteID: c472548f38218aa10800000000000000
+      internalID: 1920805599088813900
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Char0003_0: 883048432313833013
+      PlayerSwordArmAnim4_0: 1920805599088813900
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
