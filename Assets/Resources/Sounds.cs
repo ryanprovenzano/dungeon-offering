@@ -1,35 +1,57 @@
 using UnityEngine;
+using System.IO;
+using System;
+using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "Sounds", menuName = "Scriptable Objects/Sounds")]
+
+// Proper layout for sound folder is. Assets/Resources/Sound/SoundFolder/soundFiles
 public class Sounds : ScriptableObject
 {
-    [field: SerializeField] public AudioClip death { get; private set; }
-    [field: SerializeField] public AudioClip magicBeam { get; private set; }
-    [field: SerializeField] public AudioClip meleeSound1 { get; private set; }
-    [field: SerializeField] public AudioClip meleeSound2 { get; private set; }
-    [field: SerializeField] public AudioClip meleeSound3 { get; private set; }
-    [field: SerializeField] public AudioClip perfectBlock1 { get; private set; }
-    [field: SerializeField] public AudioClip perfectBlock2 { get; private set; }
-    [field: SerializeField] public AudioClip regularBlock1 { get; private set; }
-    [field: SerializeField] public AudioClip regularBlock2 { get; private set; }
+    public Dictionary<string, Dictionary<string, AudioClip>> soundDictionaries;
 
 
-    private static AudioClip GetAudioClip(string audioName)
+    private static AudioClip GetAudioClip(string folderName, string soundFileName)
     {
-        return Resources.Load<AudioClip>("Sound/" + "MeleeSFX/" + audioName);
+        // Unity file paths require forward slashes, so Path.Combine wouldn't work
+        return Resources.Load<AudioClip>("Sound" + "/" + folderName + "/" + soundFileName);
     }
 
     void OnEnable()
     {
-        death = GetAudioClip("death");
-        magicBeam = GetAudioClip("magicBeam");
-        meleeSound1 = GetAudioClip("meleeSound1");
-        meleeSound2 = GetAudioClip("meleeSound2");
-        meleeSound3 = GetAudioClip("meleeSound3");
-        perfectBlock1 = GetAudioClip("perfectBlock1");
-        perfectBlock2 = GetAudioClip("perfectBlock2");
-        regularBlock1 = GetAudioClip("regularBlock1");
-        regularBlock2 = GetAudioClip("regularBlock2");
+        soundDictionaries = new();
 
+        // Check if sound directory exists
+        string soundDirectoryPath = Path.Combine(Application.dataPath, "Resources", "Sound");
+        bool soundDirectoryExists = Directory.Exists(Path.Combine(Application.dataPath, "Resources", "Sound"));
+
+        if (soundDirectoryExists)
+        {
+            string[] soundFolders = Directory.GetDirectories(soundDirectoryPath);
+
+            // We want separate dictionaries for each folder in Sound 
+            foreach (string soundFolder in soundFolders)
+            {
+                // Get directory name; e.g. "MeleeSFX"
+                string soundFolderName = new DirectoryInfo(soundFolder).Name;
+
+                soundDictionaries.Add(soundFolderName, new Dictionary<string, AudioClip>());
+
+                string[] soundFilePaths = Directory.GetFiles(soundFolder);
+                foreach (string soundFilePath in soundFilePaths)
+                {
+                    // We need to skip files that end in .meta
+                    if (Path.GetExtension(soundFilePath) == ".meta")
+                    {
+                        continue;
+                    }
+                    string fileName = Path.GetFileNameWithoutExtension(soundFilePath);
+                    soundDictionaries[soundFolderName].Add(fileName, GetAudioClip(soundFolderName, fileName));
+                }
+
+
+            }
+        }
     }
 }

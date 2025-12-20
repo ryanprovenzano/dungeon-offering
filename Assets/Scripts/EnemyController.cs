@@ -18,7 +18,6 @@ public class EnemyController : MonoBehaviour
         stats = Resources.Load<EntityStats>(gameObject.tag);
         animController = GetComponentInChildren<EnemyAnimationController>();
         _health = GetComponent<Health>();
-
     }
 
     void Start()

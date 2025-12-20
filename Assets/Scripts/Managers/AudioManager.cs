@@ -44,9 +44,9 @@ public class AudioManager : MonoBehaviour
     {
         AudioClip audioClip = perfectBlockIndex switch
         {
-            0 => sounds.perfectBlock1,
-            1 => sounds.perfectBlock2,
-            _ => sounds.perfectBlock2
+            0 => sounds.soundDictionaries["MeleeSFX"]["perfectBlock1"],
+            1 => sounds.soundDictionaries["MeleeSFX"]["perfectBlock2"],
+            _ => sounds.soundDictionaries["MeleeSFX"]["perfectBlock2"]
         };
         perfectBlockIndex = (perfectBlockIndex + 1) % 2;
         return audioClip;
@@ -56,9 +56,9 @@ public class AudioManager : MonoBehaviour
     {
         AudioClip audioClip = regularBlockIndex switch
         {
-            0 => sounds.regularBlock1,
-            1 => sounds.regularBlock2,
-            _ => sounds.regularBlock2
+            0 => sounds.soundDictionaries["MeleeSFX"]["regularBlock1"],
+            1 => sounds.soundDictionaries["MeleeSFX"]["regularBlock2"],
+            _ => sounds.soundDictionaries["MeleeSFX"]["regularBlock2"]
         };
         regularBlockIndex = (regularBlockIndex + 1) % 2;
         return audioClip;
@@ -68,10 +68,10 @@ public class AudioManager : MonoBehaviour
     {
         AudioClip audioClip = meleeSoundIndex switch
         {
-            0 => sounds.meleeSound1,
-            1 => sounds.meleeSound2,
-            2 => sounds.meleeSound3,
-            _ => sounds.meleeSound3
+            0 => sounds.soundDictionaries["MeleeSFX"]["meleeSound1"],
+            1 => sounds.soundDictionaries["MeleeSFX"]["meleeSound2"],
+            2 => sounds.soundDictionaries["MeleeSFX"]["meleeSound3"],
+            _ => sounds.soundDictionaries["MeleeSFX"]["meleeSound3"]
         };
         meleeSoundIndex = (meleeSoundIndex + 1) % 3;
         return audioClip;
@@ -79,6 +79,6 @@ public class AudioManager : MonoBehaviour
 
     public void PlayDeathSound()
     {
-        PlaySound(sounds.death);
+        PlaySound(sounds.soundDictionaries["MeleeSFX"]["death"]);
     }
 }
